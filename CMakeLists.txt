@@ -8,5 +8,4 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 rock_init(osgQt 0.1)
-rock_find_qt4()
 rock_standard_layout()
