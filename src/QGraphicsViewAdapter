@@ -39,7 +39,8 @@ class OSGQT_EXPORT QGraphicsViewAdapter : public QObject
 
     public:
 
-        QGraphicsViewAdapter(osg::Image* image, QWidget* widget);
+        QGraphicsViewAdapter(osg::Image* image, QWidget* widget, QObject* parent = 0);
+        virtual ~QGraphicsViewAdapter();
 
         void setUpKeyMap();
 
@@ -53,24 +54,24 @@ class OSGQT_EXPORT QGraphicsViewAdapter : public QObject
 
         void clearWriteBuffer();
 
-        bool requiresRendering() const { return _requiresRendering; }
+        bool requiresRendering() const;
         void render();
 
         void assignImage(unsigned int i);
 
         void resize(int width, int height);
 
-        void setBackgroundColor(QColor color) { _backgroundColor = color; }
-        QColor getBackgroundColor() const     { return _backgroundColor; }
+        void setBackgroundColor(QColor color);
+        QColor getBackgroundColor() const;
 
         /** The 'background widget' will ignore mouse/keyboard events and let following handlers handle them
             It is mainly used for integrating scene graph and full-screen UIs
         */
-        void setBackgroundWidget(QWidget* w) { _backgroundWidget = w; }
-        QWidget* getBackgroundWidget() { return _backgroundWidget; }
+        void setBackgroundWidget(QWidget* w);
+        QWidget* getBackgroundWidget();
 
-        QGraphicsView* getQGraphicsView() { return _graphicsView; }
-        QGraphicsScene* getQGraphicsScene() { return _graphicsScene; }
+        QGraphicsView* getQGraphicsView();
+        QGraphicsScene* getQGraphicsScene();
 
     protected:
 
