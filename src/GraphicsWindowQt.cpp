@@ -572,7 +572,11 @@ bool GraphicsWindowQt::init( QWidget* parent, const QGLWidget* shareWidget, Qt::
     }
 
     // make sure the event queue has the correct window rectangle size and input range
+#if OPENSCENEGRAPH_MINOR_VERSION <= 116
+    getEventQueue()->syncWindowRectangleWithGraphcisContext();
+#else
     getEventQueue()->syncWindowRectangleWithGraphicsContext();
+#endif
 
     return true;
 }
@@ -790,7 +794,11 @@ bool GraphicsWindowQt::realizeImplementation()
     _realized = true;
 
     // make sure the event queue has the correct window rectangle size and input range
+#if OPENSCENEGRAPH_MINOR_VERSION <= 116
+    getEventQueue()->syncWindowRectangleWithGraphcisContext();
+#else
     getEventQueue()->syncWindowRectangleWithGraphicsContext();
+#endif
 
     // make this window's context not current
     // note: this must be done as we will probably make the context current from another thread
@@ -949,7 +957,11 @@ private:
 // declare C entry point for static compilation.
 extern "C" void OSGQT_EXPORT graphicswindow_Qt(void)
 {
+#if OPENSCENEGRAPH_MINOR_VERSION <= 143
+    osg::GraphicsContext::setWindowingSystemInterface(QtWindowingSystem::getInterface());
+#else
     osg::GraphicsContext::getWindowingSystemInterfaces()->addWindowingSystemInterface(QtWindowingSystem::getInterface());
+#endif
 }
 
 
