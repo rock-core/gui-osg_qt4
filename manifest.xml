@@ -7,6 +7,9 @@
   <url>http://</url>
   <logo>http://</logo>
   <depend package="base/cmake" />
+  <depend package="osg" />
+  <depend package="qt4" />
+  <depend package="qt4-opengl" />
   <!--
    To add any dependencies use the depend tag
   <depend package="dummy-dependency-0" />
