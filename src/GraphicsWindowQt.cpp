@@ -11,6 +11,7 @@
  * OpenSceneGraph Public License for more details.
 */
 
+#include <osg/Version>
 #include <osg/DeleteHandler>
 #include <osgQt/GraphicsWindowQt>
 #include <osgViewer/ViewerBase>
@@ -572,7 +573,7 @@ bool GraphicsWindowQt::init( QWidget* parent, const QGLWidget* shareWidget, Qt::
     }
 
     // make sure the event queue has the correct window rectangle size and input range
-#if OPENSCENEGRAPH_MINOR_VERSION <= 116
+#if OPENSCENEGRAPH_SOVERSION <= 116
     getEventQueue()->syncWindowRectangleWithGraphcisContext();
 #else
     getEventQueue()->syncWindowRectangleWithGraphicsContext();
@@ -794,7 +795,7 @@ bool GraphicsWindowQt::realizeImplementation()
     _realized = true;
 
     // make sure the event queue has the correct window rectangle size and input range
-#if OPENSCENEGRAPH_MINOR_VERSION <= 116
+#if OPENSCENEGRAPH_SOVERSION <= 116
     getEventQueue()->syncWindowRectangleWithGraphcisContext();
 #else
     getEventQueue()->syncWindowRectangleWithGraphicsContext();
@@ -957,7 +958,7 @@ private:
 // declare C entry point for static compilation.
 extern "C" void OSGQT_EXPORT graphicswindow_Qt(void)
 {
-#if OPENSCENEGRAPH_MINOR_VERSION <= 143
+#if OPENSCENEGRAPH_SOVERSION <= 143
     osg::GraphicsContext::setWindowingSystemInterface(QtWindowingSystem::getInterface());
 #else
     osg::GraphicsContext::getWindowingSystemInterfaces()->addWindowingSystemInterface(QtWindowingSystem::getInterface());
