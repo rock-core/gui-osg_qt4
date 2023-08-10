@@ -20,7 +20,22 @@ rock_library(osgQt5
     DEPS
     	    Qt5::Gui
 	    Qt5::OpenGL
+    NOINSTALL
 )
+
+install(TARGETS osgQt5
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin)
+
+install(FILES
+        Export
+        GraphicsWindowQt
+        QGraphicsViewAdapter
+        QWebViewImage
+        QWidgetImage
+        ${CMAKE_CURRENT_BINARY_DIR}/Version
+    DESTINATION include/osgQt5/osgQt/)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/osgQt5.pc
         DESTINATION lib/pkgconfig
