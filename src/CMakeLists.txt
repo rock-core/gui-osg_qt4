@@ -4,7 +4,7 @@ qt5_wrap_cpp(SOURCES_MOC QGraphicsViewAdapter)
 
 configure_file(Version.in Version)
 
-rock_library(osgQt
+rock_library(osgQt5
     USE_BINARY_DIR
     SOURCES
         GraphicsWindowQt.cpp
@@ -22,6 +22,7 @@ rock_library(osgQt
 	    Qt5::OpenGL
 )
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/osgQt.pc
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/osgQt5.pc
         DESTINATION lib/pkgconfig
-        RENAME openscenegraph-osgQt.pc)
+        RENAME openscenegraph-osgQt5.pc)
+
