@@ -1,9 +1,9 @@
 prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=@CMAKE_INSTALL_PREFIX@
 libdir=${prefix}/lib
-includedir=${prefix}/include/osgQt5
+includedir=${prefix}/include
 
-Name: openscenegraph-osgQt5
+Name: openscenegraph-osgQt
 Description: @PROJECT_DESCRIPTION@
 Version: @PROJECT_VERSION@
 Requires: @PKGCONFIG_REQUIRES@

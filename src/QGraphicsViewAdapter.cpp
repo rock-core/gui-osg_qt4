@@ -65,8 +65,12 @@ struct MyQPointerEvent : public QEvent
 
 const QImage::Format s_imageFormat = QImage::Format_ARGB32_Premultiplied;
 
+#if QT_VERSION < 0x050000
+QGraphicsViewAdapter::QGraphicsViewAdapter(osg::Image* image, QWidget* widget):
+#else
 QGraphicsViewAdapter::QGraphicsViewAdapter(osg::Image* image, QWidget* widget, QObject* parent):
     QObject(parent),
+#endif
     _image(image),
     _backgroundWidget(0),
     _previousMouseX(-1),
@@ -119,41 +123,6 @@ QGraphicsViewAdapter::QGraphicsViewAdapter(osg::Image* image, QWidget* widget, Q
 
 QGraphicsViewAdapter::~QGraphicsViewAdapter()
 {
-}
-
-bool QGraphicsViewAdapter::requiresRendering() const
-{
-    return _requiresRendering; 
-}
-
-void QGraphicsViewAdapter::setBackgroundColor(QColor color)
-{
-    _backgroundColor = color; 
-}
-
-QColor QGraphicsViewAdapter::getBackgroundColor() const
-{
-    return _backgroundColor;
-}
-
-void QGraphicsViewAdapter::setBackgroundWidget(QWidget* w)
-{
-    _backgroundWidget = w;
-}
-
-QWidget* QGraphicsViewAdapter::getBackgroundWidget()
-{
-    return _backgroundWidget;
-}
-
-QGraphicsView* QGraphicsViewAdapter::getQGraphicsView() 
-{
-    return _graphicsView; 
-}
-
-QGraphicsScene* QGraphicsViewAdapter::getQGraphicsScene()
-{
-    return _graphicsScene; 
 }
 
 void QGraphicsViewAdapter::repaintRequestedSlot(const QList<QRectF>&)
