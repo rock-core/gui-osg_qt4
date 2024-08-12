@@ -286,6 +286,8 @@ void GLWidget::setKeyboardModifiers( QInputEvent* event )
 
 void GLWidget::resizeEvent( QResizeEvent* event )
 {
+    if (_gw == NULL || !_gw->valid())
+	return;
     const QSize& size = event->size();
 
     int scaled_width = static_cast<int>(size.width()*_devicePixelRatio);
@@ -297,6 +299,8 @@ void GLWidget::resizeEvent( QResizeEvent* event )
 
 void GLWidget::moveEvent( QMoveEvent* event )
 {
+    if (_gw == NULL || !_gw->valid())
+	return;
     const QPoint& pos = event->pos();
     int scaled_width = static_cast<int>(width()*_devicePixelRatio);
     int scaled_height = static_cast<int>(height()*_devicePixelRatio);
@@ -445,7 +449,7 @@ bool GLWidget::gestureEvent( QGestureEvent* qevent )
         //We don't have absolute positions of the two touches, only a scale and rotation
         //Hence we create pseudo-coordinates which are reasonable, and centered around the
         //real position
-        const float radius = (width()+height())/4;
+        const float radius = float(width()+height())/4.0f;
         const osg::Vec2 vector( scale*cos(angle)*radius, scale*sin(angle)*radius);
         const osg::Vec2 p0 = pinchCenter+vector;
         const osg::Vec2 p1 = pinchCenter-vector;
@@ -857,8 +861,6 @@ bool GraphicsWindowQt::releaseContextImplementation()
 
 void GraphicsWindowQt::swapBuffersImplementation()
 {
-    _widget->swapBuffers();
-
     // FIXME: the processDeferredEvents should really be executed in a GUI (main) thread context but
     // I couln't find any reliable way to do this. For now, lets hope non of *GUI thread only operations* will
     // be executed in a QGLWidget::event handler. On the other hand, calling GUI only operations in the
@@ -868,8 +870,8 @@ void GraphicsWindowQt::swapBuffersImplementation()
 
     // We need to call makeCurrent here to restore our previously current context
     // which may be changed by the processDeferredEvents function.
-    if (QGLContext::currentContext() != _widget->context())
-        _widget->makeCurrent();
+    _widget->makeCurrent();
+    _widget->swapBuffers();
 }
 
 void GraphicsWindowQt::requestWarpPointer( float x, float y )
@@ -954,6 +956,9 @@ private:
     QtWindowingSystem& operator=( const QtWindowingSystem& );
 };
 
+#if OSG_VERSION_GREATER_OR_EQUAL(3, 5, 6)
+REGISTER_WINDOWINGSYSTEMINTERFACE(Qt, QtWindowingSystem)
+#else
 
 // declare C entry point for static compilation.
 extern "C" void OSGQT_EXPORT graphicswindow_Qt(void)
@@ -970,7 +975,7 @@ void osgQt::initQtWindowingSystem()
 {
     graphicswindow_Qt();
 }
-
+#endif
 
 
 void osgQt::setViewer( osgViewer::ViewerBase *viewer )
