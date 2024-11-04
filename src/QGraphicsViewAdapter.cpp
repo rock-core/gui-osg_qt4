@@ -65,9 +65,15 @@ struct MyQPointerEvent : public QEvent
 
 const QImage::Format s_imageFormat = QImage::Format_ARGB32_Premultiplied;
 
+#if QT_VERSION < 0x050000
 QGraphicsViewAdapter::QGraphicsViewAdapter(osg::Image* image, QWidget* widget):
+#else
+QGraphicsViewAdapter::QGraphicsViewAdapter(osg::Image* image, QWidget* widget, QObject* parent):
+    QObject(parent),
+#endif
     _image(image),
     _backgroundWidget(0),
+    _previousButtonMask(0),
     _previousMouseX(-1),
     _previousMouseY(-1),
     _previousQtMouseX(-1),
@@ -114,6 +120,10 @@ QGraphicsViewAdapter::QGraphicsViewAdapter(osg::Image* image, QWidget* widget):
             this, SLOT(repaintRequestedSlot(const QRectF &)));
 
     assignImage(0);
+}
+
+QGraphicsViewAdapter::~QGraphicsViewAdapter()
+{
 }
 
 void QGraphicsViewAdapter::repaintRequestedSlot(const QList<QRectF>&)

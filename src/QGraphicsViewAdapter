@@ -39,7 +39,12 @@ class OSGQT_EXPORT QGraphicsViewAdapter : public QObject
 
     public:
 
+#if QT_VERSION < 0x050000
         QGraphicsViewAdapter(osg::Image* image, QWidget* widget);
+#else
+        QGraphicsViewAdapter(osg::Image* image, QWidget* widget, QObject* parent = 0);
+#endif
+        virtual ~QGraphicsViewAdapter();
 
         void setUpKeyMap();
 
