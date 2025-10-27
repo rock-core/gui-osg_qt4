@@ -848,14 +848,24 @@ bool GraphicsWindowQt::makeCurrentImplementation()
     if (_widget->getNumDeferredEvents() > 0)
         _widget->processDeferredEvents();
 
+#if QT_VERSION < 0x050000
     _widget->makeCurrent();
+#else
+    if (_widget->context()->contextHandle())
+        _widget->makeCurrent();
+#endif
 
     return true;
 }
 
 bool GraphicsWindowQt::releaseContextImplementation()
 {
+#if QT_VERSION < 0x050000
     _widget->doneCurrent();
+#else
+    if (_widget->context()->contextHandle())
+        _widget->doneCurrent();
+#endif
     return true;
 }
 
